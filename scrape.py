@@ -3,10 +3,17 @@ from bs4 import BeautifulSoup
 import pprint
 
 res = requests.get('https://news.ycombinator.com/news')
-
+res2 = requests.get('https://news.ycombinator.com/news?p=2')
 soup = BeautifulSoup(res.text, 'html.parser')
+soup2 = BeautifulSoup(res2.text, 'html.parser')
+
 links = soup.select('.titleline > a')
 subtexts = soup.select('.subtext')
+links2 = soup2.select('.titleline > a')
+subtexts2 = soup2.select('.subtext')
+
+mega_links = links + links2
+mega_subtexts = subtexts + subtexts2
 
 
 def sort_stories_by_votes(hnlist):
@@ -30,4 +37,4 @@ def create_custom_hn(links, subtexts):
     return sort_stories_by_votes(hn)
 
 
-pprint.pprint(create_custom_hn(links, subtexts))
+pprint.pprint(create_custom_hn(mega_links, mega_subtexts))
